@@ -17,11 +17,12 @@ figure; % open a new figure window
 %       markers larger by using plot(..., 'rx', 'MarkerSize', 10);
 
 plot(x,y, "rx", "MarkerSize", 6);
+
 ylabel('Profit in $10,000s');
 xlabel('Population of City in 10,000s');
+
+% axis([xmin xmax, ymin, ymax])
 axis([4 24 -5 25]);
-
-
 
 % ============================================================
 

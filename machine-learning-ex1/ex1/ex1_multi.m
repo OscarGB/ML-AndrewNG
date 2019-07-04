@@ -91,9 +91,21 @@ theta = zeros(3, 1);
 
 % Plot the convergence graph
 figure;
-plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
+plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2, 'DisplayName', 'Alpha = 0.01');
 xlabel('Number of iterations');
 ylabel('Cost J');
+
+% Added to see the results of various learning rates
+hold on;
+colors = ['-r', '-g', '-k', '-y', 'm'];
+alphas = [0.03, 0.1, 0.003, 0.001, 0.3];
+for i = [1:length(alphas)]
+    thet = zeros(3,1);
+    [thet, J_histories(i,:)] = gradientDescentMulti(X, y, thet, alphas(i), num_iters);
+    plot(1:numel(J_histories(i,:)), J_histories(i,:), colors(i), 'LineWidth', 1, 'DisplayName', strcat('Alpha = ', num2str(alphas(i))));
+end
+legend
+hold off;
 
 % Display gradient descent's result
 fprintf('Theta computed from gradient descent: \n');
@@ -104,7 +116,10 @@ fprintf('\n');
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
-price = 0; % You should change this
+dat = [1650 3];
+dat = (dat - mu)./sigma;
+dat = [1 dat];
+price = dat*theta;
 
 
 % ============================================================
@@ -149,11 +164,23 @@ fprintf('\n');
 
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
-price = 0; % You should change this
-
+dat = [1 1650 3];
+price1 = dat*theta;
 
 % ============================================================
 
 fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...
-         '(using normal equations):\n $%f\n'], price);
+         '(using normal equations):\n $%f\n'], price1);
+     
+% Check Gradient Descent with Normal Equations
+% I decided to take the lasta alpha value in the for loop (0,3)
+% because it's more agressive but doesnt get stuck or diverges
+
+dat = [1650 3];
+dat = (dat - mu)./sigma;
+dat = [1 dat];
+price = dat*thet;
+     
+fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...
+         '(using gradient descent (alpha = 0.3)):\n $%f\n'], price);
 
